@@ -11,16 +11,18 @@ import {
 } from "../components/ui/dropdown-menu"
 import { Link, useNavigate } from "react-router-dom"
 import React, { Suspense } from "react"
+import { useAuth } from "../contexts/AuthContext"
 
 function NavBar() {
   const navigate = useNavigate()
+  const { isAuthenticated, user, logout, loading } = useAuth()
 
   const MovieSearch = React.lazy(() => import("../components/MovieSearch"))
 
-  
-  const isAuthenticated = !!localStorage.getItem("token")
-  const userImageUrl = null // luego lo puedes sacar del backend
-  const loading = false
+  const handleLogout = () => {
+    logout()
+    navigate("/")
+  }
 
   return (
     <>
@@ -44,13 +46,10 @@ function NavBar() {
             <Loader2 className="animate-spin h-5 w-5" />
           ) : isAuthenticated ? (
             <div className="flex items-center">
-              {userImageUrl ? (
-                <img
-                  src={userImageUrl}
-                  alt="User profile"
-                  className="h-9 w-9 rounded-full"
-                  loading="lazy"
-                />
+              {user?.firstName ? (
+                <div className="h-9 w-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+                  {user.firstName.charAt(0).toUpperCase()}
+                </div>
               ) : (
                 <div className="h-9 w-9 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold">
                   U
@@ -76,10 +75,7 @@ function NavBar() {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    onClick={() => {
-                      localStorage.removeItem("token")
-                      navigate("/login")
-                    }}
+                    onClick={handleLogout}
                     className="flex items-center"
                   >
                     <LogOut className="mr-2" />
