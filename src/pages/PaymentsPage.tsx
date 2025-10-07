@@ -194,34 +194,34 @@ const PaymentsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-6">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Complete Your Payment</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 text-center">Complete Your Payment</h1>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Payment Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
                 {/* Payment Method Selection */}
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Payment Method</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="mb-6 sm:mb-8">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Select Payment Method</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {paymentMethods.map((method) => (
                       <div
                         key={method.id}
                         onClick={() => setSelectedPaymentMethod(method.id)}
-                        className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                        className={`border-2 rounded-lg p-3 sm:p-4 cursor-pointer transition-all ${
                           selectedPaymentMethod === method.id
                             ? 'border-blue-500 bg-blue-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-2xl">{method.icon}</span>
+                          <span className="text-xl sm:text-2xl">{method.icon}</span>
                           <div>
-                            <div className="font-semibold text-gray-900">{method.name}</div>
-                            <div className="text-sm text-gray-600">{method.details}</div>
+                            <div className="font-semibold text-gray-900 text-sm sm:text-base">{method.name}</div>
+                            <div className="text-xs sm:text-sm text-gray-600">{method.details}</div>
                           </div>
                         </div>
                       </div>

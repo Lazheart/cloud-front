@@ -156,7 +156,7 @@ const MoviePage: React.FC<MoviePageProps> = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative h-96 overflow-hidden">
+      <div className="relative h-64 sm:h-80 md:h-96 overflow-hidden">
         <img
           src={movie.backdrop}
           alt={movie.title}
@@ -164,36 +164,36 @@ const MoviePage: React.FC<MoviePageProps> = () => {
         />
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto px-6 pb-8">
-            <div className="flex items-end gap-6">
+          <div className="container mx-auto px-4 sm:px-6 pb-4 sm:pb-8">
+            <div className="flex flex-col md:flex-row items-end gap-4 sm:gap-6">
               <img
                 src={movie.poster}
                 alt={movie.title}
-                className="w-48 h-72 object-cover rounded-lg shadow-lg"
+                className="w-32 h-48 sm:w-40 sm:h-60 md:w-48 md:h-72 object-cover rounded-lg shadow-lg mx-auto md:mx-0"
               />
-              <div className="text-white flex-1">
-                <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
-                <div className="flex items-center gap-4 mb-4">
+              <div className="text-white flex-1 text-center md:text-left">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{movie.title}</h1>
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-2 sm:gap-4 mb-4">
                   <div className="flex items-center gap-1">
                     <span className="text-yellow-400">⭐</span>
-                    <span className="text-xl font-semibold">{movie.rating}</span>
+                    <span className="text-lg sm:text-xl font-semibold">{movie.rating}</span>
                     <span className="text-gray-300">/10</span>
                   </div>
-                  <span className="text-gray-300">•</span>
-                  <span>{movie.duration}</span>
-                  <span className="text-gray-300">•</span>
-                  <span>{new Date(movie.releaseDate).getFullYear()}</span>
+                  <span className="text-gray-300 hidden sm:inline">•</span>
+                  <span className="text-sm sm:text-base">{movie.duration}</span>
+                  <span className="text-gray-300 hidden sm:inline">•</span>
+                  <span className="text-sm sm:text-base">{new Date(movie.releaseDate).getFullYear()}</span>
                 </div>
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-4">
                   {movie.genre.map((g, index) => (
-                    <span key={index} className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                    <span key={index} className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                       {g}
                     </span>
                   ))}
                 </div>
                 <button
                   onClick={() => setShowTrailer(true)}
-                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors text-sm sm:text-base"
                 >
                   ▶ Watch Trailer
                 </button>
@@ -203,46 +203,46 @@ const MoviePage: React.FC<MoviePageProps> = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Synopsis */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Synopsis</h2>
-              <p className="text-gray-700 leading-relaxed">{movie.description}</p>
+            <section className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Synopsis</h2>
+              <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{movie.description}</p>
             </section>
 
             {/* Cast & Crew */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Cast & Crew</h2>
-              <div className="bg-white rounded-lg p-6 shadow-md">
-                <div className="mb-4">
-                  <span className="font-semibold text-gray-900">Director:</span>
-                  <span className="text-gray-700 ml-2">{movie.director}</span>
+            <section className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Cast & Crew</h2>
+              <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md">
+                <div className="mb-3 sm:mb-4">
+                  <span className="font-semibold text-gray-900 text-sm sm:text-base">Director:</span>
+                  <span className="text-gray-700 ml-2 text-sm sm:text-base">{movie.director}</span>
                 </div>
                 <div>
-                  <span className="font-semibold text-gray-900">Starring:</span>
-                  <span className="text-gray-700 ml-2">{movie.cast.join(', ')}</span>
+                  <span className="font-semibold text-gray-900 text-sm sm:text-base">Starring:</span>
+                  <span className="text-gray-700 ml-2 text-sm sm:text-base">{movie.cast.join(', ')}</span>
                 </div>
               </div>
             </section>
 
             {/* Reviews */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Reviews</h2>
+            <section className="mb-6 sm:mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Reviews</h2>
               <div className="space-y-4">
                 {movie.reviews.map((review) => (
-                  <div key={review.id} className="bg-white rounded-lg p-6 shadow-md">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="font-semibold text-gray-900">{review.author}</div>
+                  <div key={review.id} className="bg-white rounded-lg p-4 sm:p-6 shadow-md">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2">
+                      <div className="font-semibold text-gray-900 text-sm sm:text-base">{review.author}</div>
                       <div className="flex items-center gap-1">
                         <span className="text-yellow-400">⭐</span>
-                        <span className="font-medium">{review.rating}/10</span>
+                        <span className="font-medium text-sm sm:text-base">{review.rating}/10</span>
                       </div>
                     </div>
-                    <p className="text-gray-700 mb-2">{review.comment}</p>
-                    <div className="text-gray-500 text-sm">
+                    <p className="text-gray-700 mb-2 text-sm sm:text-base">{review.comment}</p>
+                    <div className="text-gray-500 text-xs sm:text-sm">
                       {new Date(review.date).toLocaleDateString()}
                     </div>
                   </div>
@@ -254,31 +254,31 @@ const MoviePage: React.FC<MoviePageProps> = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             {/* Movie Info */}
-            <div className="bg-white rounded-lg p-6 shadow-md mb-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Movie Info</h3>
-              <div className="space-y-3">
+            <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Movie Info</h3>
+              <div className="space-y-2 sm:space-y-3">
                 <div>
-                  <span className="font-medium text-gray-700">Release Date:</span>
-                  <div className="text-gray-900">{new Date(movie.releaseDate).toLocaleDateString()}</div>
+                  <span className="font-medium text-gray-700 text-sm sm:text-base">Release Date:</span>
+                  <div className="text-gray-900 text-sm sm:text-base">{new Date(movie.releaseDate).toLocaleDateString()}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700">Duration:</span>
-                  <div className="text-gray-900">{movie.duration}</div>
+                  <span className="font-medium text-gray-700 text-sm sm:text-base">Duration:</span>
+                  <div className="text-gray-900 text-sm sm:text-base">{movie.duration}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700">Language:</span>
-                  <div className="text-gray-900">{movie.language}</div>
+                  <span className="font-medium text-gray-700 text-sm sm:text-base">Language:</span>
+                  <div className="text-gray-900 text-sm sm:text-base">{movie.language}</div>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-700">Genres:</span>
-                  <div className="text-gray-900">{movie.genre.join(', ')}</div>
+                  <span className="font-medium text-gray-700 text-sm sm:text-base">Genres:</span>
+                  <div className="text-gray-900 text-sm sm:text-base">{movie.genre.join(', ')}</div>
                 </div>
               </div>
             </div>
 
             {/* Showtimes */}
-            <div className="bg-white rounded-lg p-6 shadow-md">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Showtimes</h3>
+            <div className="bg-white rounded-lg p-4 sm:p-6 shadow-md">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Showtimes</h3>
               
               {/* Date Selector */}
               <div className="mb-4">
@@ -286,7 +286,7 @@ const MoviePage: React.FC<MoviePageProps> = () => {
                 <select
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full p-2 sm:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                 >
                   <option value="2024-01-28">Today - Jan 28</option>
                   <option value="2024-01-29">Tomorrow - Jan 29</option>
@@ -297,20 +297,20 @@ const MoviePage: React.FC<MoviePageProps> = () => {
               {/* Showtime List */}
               <div className="space-y-3">
                 {filteredShowtimes.map((showtime) => (
-                  <div key={showtime.id} className="border border-gray-200 rounded-lg p-4">
+                  <div key={showtime.id} className="border border-gray-200 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <div className="font-bold text-lg text-gray-900">{showtime.time}</div>
-                        <div className="text-sm text-gray-600">{showtime.theater}</div>
+                        <div className="font-bold text-base sm:text-lg text-gray-900">{showtime.time}</div>
+                        <div className="text-xs sm:text-sm text-gray-600">{showtime.theater}</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-gray-900">${showtime.price}</div>
-                        <div className="text-sm text-gray-600">{showtime.availableSeats} seats left</div>
+                        <div className="font-bold text-gray-900 text-sm sm:text-base">${showtime.price}</div>
+                        <div className="text-xs sm:text-sm text-gray-600">{showtime.availableSeats} seats left</div>
                       </div>
                     </div>
                     <button
                       onClick={() => handleBookNow(showtime)}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors text-sm sm:text-base"
                       disabled={showtime.availableSeats === 0}
                     >
                       {showtime.availableSeats === 0 ? 'Sold Out' : 'Book Now'}
@@ -325,19 +325,19 @@ const MoviePage: React.FC<MoviePageProps> = () => {
 
       {/* Trailer Modal */}
       {showTrailer && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-4xl w-full">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold">{movie.title} - Trailer</h3>
+              <h3 className="text-lg sm:text-xl font-bold">{movie.title} - Trailer</h3>
               <button
                 onClick={() => setShowTrailer(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-              <div className="text-gray-500">Trailer would be embedded here</div>
+              <div className="text-gray-500 text-sm sm:text-base">Trailer would be embedded here</div>
             </div>
           </div>
         </div>

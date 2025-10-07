@@ -185,38 +185,38 @@ const SeatSelectionPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-6">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Select Your Seats</h1>
-            <div className="bg-white rounded-lg shadow-md p-4 max-w-2xl mx-auto">
-              <h2 className="text-xl font-semibold text-gray-900">{showDetails.movieTitle}</h2>
-              <div className="text-gray-600 mt-1">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Select Your Seats</h1>
+            <div className="bg-white rounded-lg shadow-md p-3 sm:p-4 max-w-2xl mx-auto">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{showDetails.movieTitle}</h2>
+              <div className="text-gray-600 mt-1 text-sm sm:text-base">
                 {showDetails.showtime} • {showDetails.theater} • {showDetails.duration}
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 sm:gap-8">
             {/* Seating Chart */}
-            <div className="lg:col-span-3">
-              <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="xl:col-span-3">
+              <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
                 {/* Screen */}
-                <div className="text-center mb-8">
-                  <div className="bg-gray-800 text-white py-2 px-8 rounded-t-lg mx-auto max-w-xs">
+                <div className="text-center mb-6 sm:mb-8">
+                  <div className="bg-gray-800 text-white py-2 px-4 sm:px-8 rounded-t-lg mx-auto max-w-xs text-sm sm:text-base">
                     SCREEN
                   </div>
                   <div className="h-2 bg-gradient-to-b from-gray-800 to-transparent mx-auto max-w-xs rounded-b-lg"></div>
                 </div>
 
                 {/* Seats */}
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3 overflow-x-auto">
                   {rows.map((row) => (
-                    <div key={row} className="flex justify-center items-center gap-2">
-                      <div className="w-8 text-center font-bold text-gray-700">{row}</div>
-                      <div className="flex gap-2">
+                    <div key={row} className="flex justify-center items-center gap-1 sm:gap-2 min-w-max">
+                      <div className="w-6 sm:w-8 text-center font-bold text-gray-700 text-sm sm:text-base">{row}</div>
+                      <div className="flex gap-1 sm:gap-2">
                         {Array.from({ length: seatsPerRow }, (_, index) => {
                           const seatNum = index + 1;
                           const seatId = `${row}${seatNum}`;
@@ -228,43 +228,43 @@ const SeatSelectionPage: React.FC = () => {
                             <React.Fragment key={seatId}>
                               <button
                                 onClick={() => handleSeatClick(seatId)}
-                                className={`w-8 h-8 border-2 rounded-lg text-xs font-medium transition-all ${getSeatColor(seat)}`}
+                                className={`w-6 h-6 sm:w-8 sm:h-8 border-2 rounded-lg text-xs font-medium transition-all ${getSeatColor(seat)}`}
                                 disabled={seat.status === 'occupied' || seat.status === 'disabled'}
                                 title={`Seat ${seatId} - ${seat.type} ($${seat.price})`}
                               >
                                 {seatNum}
                               </button>
-                              {seatNum === 6 && <div className="w-4"></div>} {/* Aisle gap */}
+                              {seatNum === 6 && <div className="w-2 sm:w-4"></div>} {/* Aisle gap */}
                             </React.Fragment>
                           );
                         })}
                       </div>
-                      <div className="w-8 text-center font-bold text-gray-700">{row}</div>
+                      <div className="w-6 sm:w-8 text-center font-bold text-gray-700 text-sm sm:text-base">{row}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Legend */}
-                <div className="mt-8 border-t pt-6">
-                  <div className="flex flex-wrap justify-center gap-6 text-sm">
+                <div className="mt-6 sm:mt-8 border-t pt-4 sm:pt-6">
+                  <div className="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-6 text-xs sm:text-sm">
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-green-200 border border-green-400 rounded"></div>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-green-200 border border-green-400 rounded"></div>
                       <span>Available ($12.50)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-blue-200 border border-blue-400 rounded"></div>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-blue-200 border border-blue-400 rounded"></div>
                       <span>Premium ($15.00)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-purple-200 border border-purple-400 rounded"></div>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-purple-200 border border-purple-400 rounded"></div>
                       <span>VIP ($18.00)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-yellow-400 border border-yellow-500 rounded"></div>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-400 border border-yellow-500 rounded"></div>
                       <span>Selected</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-red-300 border border-red-400 rounded opacity-60"></div>
+                      <div className="w-3 h-3 sm:w-4 sm:h-4 bg-red-300 border border-red-400 rounded opacity-60"></div>
                       <span>Occupied</span>
                     </div>
                   </div>
@@ -273,23 +273,23 @@ const SeatSelectionPage: React.FC = () => {
             </div>
 
             {/* Booking Summary */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-lg p-6 sticky top-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Booking Summary</h3>
+            <div className="xl:col-span-1">
+              <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 sticky top-6">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Booking Summary</h3>
                 
                 {selectedSeats.length > 0 ? (
                   <div>
                     <div className="space-y-3 mb-6">
                       <div>
-                        <div className="text-sm text-gray-600">Selected Seats</div>
-                        <div className="font-semibold text-gray-900">
+                        <div className="text-xs sm:text-sm text-gray-600">Selected Seats</div>
+                        <div className="font-semibold text-gray-900 text-sm sm:text-base">
                           {selectedSeats.sort().join(', ')}
                         </div>
                       </div>
                       
                       <div>
-                        <div className="text-sm text-gray-600">Quantity</div>
-                        <div className="font-semibold text-gray-900">{selectedSeats.length} ticket{selectedSeats.length !== 1 ? 's' : ''}</div>
+                        <div className="text-xs sm:text-sm text-gray-600">Quantity</div>
+                        <div className="font-semibold text-gray-900 text-sm sm:text-base">{selectedSeats.length} ticket{selectedSeats.length !== 1 ? 's' : ''}</div>
                       </div>
                     </div>
 
@@ -299,7 +299,7 @@ const SeatSelectionPage: React.FC = () => {
                       {selectedSeats.map(seatId => {
                         const seat = seats.find(s => s.id === seatId);
                         return seat ? (
-                          <div key={seatId} className="flex justify-between text-sm">
+                          <div key={seatId} className="flex justify-between text-xs sm:text-sm">
                             <span>{seat.id} ({seat.type})</span>
                             <span>${seat.price.toFixed(2)}</span>
                           </div>
@@ -309,14 +309,14 @@ const SeatSelectionPage: React.FC = () => {
 
                     <hr className="my-4" />
 
-                    <div className="flex justify-between text-lg font-semibold mb-6">
+                    <div className="flex justify-between text-base sm:text-lg font-semibold mb-6">
                       <span>Total</span>
                       <span>${getTotalPrice().toFixed(2)}</span>
                     </div>
 
                     <button
                       onClick={handleProceedToPayment}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base"
                     >
                       Proceed to Payment
                     </button>
@@ -329,8 +329,8 @@ const SeatSelectionPage: React.FC = () => {
                   </div>
                 )}
 
-                <div className="mt-6 p-3 bg-blue-50 rounded-lg">
-                  <div className="text-blue-800 text-sm">
+                <div className="mt-4 sm:mt-6 p-3 bg-blue-50 rounded-lg">
+                  <div className="text-blue-800 text-xs sm:text-sm">
                     <div className="font-medium mb-1">💡 Tip:</div>
                     <ul className="text-xs space-y-1">
                       <li>• Premium seats offer better view</li>
