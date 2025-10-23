@@ -305,7 +305,7 @@ export default movieService;
 
 export const getMovies = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await movieServiceClient.get('/');
     return response.data;
   } catch (error) {
     console.error("Error fetching movies:", error);
