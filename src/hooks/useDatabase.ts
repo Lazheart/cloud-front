@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { 
-  databaseService, 
+import { databaseService } from '../services/databaseService';
+import type { 
   DatabaseStatus, 
-  CreateRequest, 
-  CreateResponse, 
+  CreateRequest as DatabaseCreateRequest, 
   ListRequest, 
   UpdateRequest, 
   DeleteRequest, 
@@ -21,7 +20,7 @@ export interface UseDatabaseState {
 // Hook return interface
 export interface UseDatabaseReturn extends UseDatabaseState {
   handleCheckStatus: () => Promise<void>;
-  handleCreateRecord: (data: CreateRequest) => Promise<void>;
+  handleCreateRecord: (data: DatabaseCreateRequest) => Promise<void>;
   handleListRecords: (data: ListRequest) => Promise<void>;
   handleUpdateRecord: (data: UpdateRequest) => Promise<void>;
   handleDeleteRecord: (data: DeleteRequest) => Promise<void>;
@@ -99,7 +98,7 @@ export const useDatabase = (): UseDatabaseReturn => {
    * Create a new record
    * @param data - Record creation data
    */
-  const handleCreateRecord = async (data: CreateRequest): Promise<void> => {
+  const handleCreateRecord = async (data: DatabaseCreateRequest): Promise<void> => {
     setState(prev => ({
       ...prev,
       loading: true,

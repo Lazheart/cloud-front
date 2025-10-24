@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MovieSearch from '../components/MovieSearch';
-
-interface Movie {
-  id: number;
-  title: string;
-  poster: string;
-  rating: number;
-  genre: string[];
-  duration: string;
-  description: string;
-}
+import MovieImage from '../components/MovieImage';
+import { useMovies } from '../hooks/useMovies';
+import type { Movie } from '../services/moviesService';
 
 interface FeaturedMovie {
   id: number;
@@ -23,103 +16,40 @@ interface FeaturedMovie {
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const { data: movies, loading, error, handleGetMovies } = useMovies();
   const [featuredMovies, setFeaturedMovies] = useState<FeaturedMovie[]>([]);
   const [trendingMovies, setTrendingMovies] = useState<Movie[]>([]);
   const [newReleases, setNewReleases] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    // Simulate API calls to fetch movies data
-    const fetchMoviesData = async () => {
-      try {
-        // Mock featured movies
-        const mockFeatured: FeaturedMovie[] = [
-          {
-            id: 1,
-            title: 'Avatar: The Way of Water',
-            poster: '/api/placeholder/300/450',
-            backdrop: '/api/placeholder/1200/500',
-            description: 'Jake Sully lives with his newfound family formed on the planet of Pandora.',
-            rating: 8.7
-          },
-          {
-            id: 2,
-            title: 'Black Panther: Wakanda Forever',
-            poster: '/api/placeholder/300/450',
-            backdrop: '/api/placeholder/1200/500',
-            description: 'The people of Wakanda fight to protect their home from intervening world powers.',
-            rating: 8.2
-          }
-        ];
-
-        // Mock trending movies
-        const mockTrending: Movie[] = [
-          {
-            id: 3,
-            title: 'Top Gun: Maverick',
-            poster: '/api/placeholder/200/300',
-            rating: 8.9,
-            genre: ['Action', 'Drama'],
-            duration: '2h 11m',
-            description: 'After thirty years, Maverick is still pushing the envelope as a top naval aviator.'
-          },
-          {
-            id: 4,
-            title: 'Spider-Man: No Way Home',
-            poster: '/api/placeholder/200/300',
-            rating: 8.4,
-            genre: ['Action', 'Adventure', 'Fantasy'],
-            duration: '2h 28m',
-            description: 'Spider-Man seeks help from Doctor Strange to forget his revealed identity.'
-          },
-          {
-            id: 5,
-            title: 'The Batman',
-            poster: '/api/placeholder/200/300',
-            rating: 8.1,
-            genre: ['Action', 'Crime', 'Drama'],
-            duration: '2h 56m',
-            description: 'Batman ventures into Gotham City\'s underworld when a sadistic killer leaves behind a trail of cryptic clues.'
-          }
-        ];
-
-        // Mock new releases
-        const mockNewReleases: Movie[] = [
-          {
-            id: 6,
-            title: 'Dune: Part Two',
-            poster: '/api/placeholder/200/300',
-            rating: 8.8,
-            genre: ['Sci-Fi', 'Adventure'],
-            duration: '2h 46m',
-            description: 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators.'
-          },
-          {
-            id: 7,
-            title: 'Oppenheimer',
-            poster: '/api/placeholder/200/300',
-            rating: 8.6,
-            genre: ['Biography', 'Drama', 'History'],
-            duration: '3h 0m',
-            description: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.'
-          }
-        ];
-
-        setTimeout(() => {
-          setFeaturedMovies(mockFeatured);
-          setTrendingMovies(mockTrending);
-          setNewReleases(mockNewReleases);
-          setLoading(false);
-        }, 1000);
-      } catch (error) {
-        console.error('Error fetching movies:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchMoviesData();
+    // Load movies from API
+    handleGetMovies();
   }, []);
+
+  useEffect(() => {
+    if (movies && movies.length > 0) {
+      // Set featured movies (first 2 movies)
+      const featured = movies.slice(0, 2).map(movie => ({
+        id: movie.id,
+        title: movie.name,
+        poster: movie.poster || '/api/placeholder/300/450',
+        backdrop: movie.backdrop || '/api/placeholder/1200/500',
+        description: movie.description,
+        rating: 8.5 // Default rating since not in API
+      }));
+
+      // Set trending movies (next 3 movies)
+      const trending = movies.slice(2, 5);
+
+      // Set new releases (remaining movies)
+      const newReleases = movies.slice(5, 7);
+
+      setFeaturedMovies(featured);
+      setTrendingMovies(trending);
+      setNewReleases(newReleases);
+    }
+  }, [movies]);
 
   useEffect(() => {
     // Auto-rotate featured movies carousel
@@ -136,25 +66,23 @@ const HomePage: React.FC = () => {
       onClick={() => navigate(`/movie/${movie.id}`)}
     >
       <div className="relative">
-        <img
-          src={movie.poster}
-          alt={movie.title}
+        <MovieImage
+          src={movie.poster || "/api/placeholder/200/300"}
+          alt={movie.name}
           className="w-full h-48 sm:h-56 md:h-64 object-cover rounded-t-lg"
         />
         <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded-md text-xs sm:text-sm font-medium">
-          ⭐ {movie.rating}
+          ⭐ 8.5
         </div>
       </div>
       <div className="p-3 sm:p-4">
-        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-1">{movie.title}</h3>
+        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-1">{movie.name}</h3>
         <div className="flex flex-wrap gap-1 mb-2">
-          {movie.genre.slice(0, 2).map((g, index) => (
-            <span key={index} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-              {g}
-            </span>
-          ))}
+          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+            {movie.genre}
+          </span>
         </div>
-        <p className="text-gray-600 text-xs sm:text-sm mb-2">{movie.duration}</p>
+        <p className="text-gray-600 text-xs sm:text-sm mb-2">{movie.time} min</p>
         <p className="text-gray-700 text-xs sm:text-sm line-clamp-2">{movie.description}</p>
       </div>
     </div>

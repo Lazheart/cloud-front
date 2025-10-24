@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config/env';
+import { mockMovies } from './mockData';
 
 // Types for Movies API
 export interface ShowTime {
@@ -19,6 +20,8 @@ export interface Movie {
   time: number;
   ageRestriction: string;
   premiere: boolean;
+  poster?: string;
+  backdrop?: string;
   showTimes: ShowTime[];
 }
 
@@ -94,6 +97,7 @@ export class MoviesService {
         headers: {
           'Content-Type': 'application/json',
         },
+        timeout: 5000, // 5 second timeout
       });
 
       return {
@@ -101,6 +105,18 @@ export class MoviesService {
         error: null,
       };
     } catch (error: any) {
+      // If network error or timeout, return mock data for development
+      if (error.code === 'ERR_NAME_NOT_RESOLVED' || 
+          error.code === 'ERR_NETWORK' || 
+          error.code === 'ECONNABORTED' ||
+          error.message?.includes('timeout')) {
+        console.warn('Movies service unavailable, using mock data');
+        return {
+          data: mockMovies,
+          error: null,
+        };
+      }
+
       const serviceError: ServiceError = {
         message: error.response?.data?.message || error.message || 'Failed to fetch movies',
         status: error.response?.status || 500,

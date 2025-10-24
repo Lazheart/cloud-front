@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { 
-  moviesService, 
+import { moviesService } from '../services/moviesService';
+import type { 
   Movie, 
   ShowTime, 
   CreateMovieRequest, 
