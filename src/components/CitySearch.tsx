@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type SetStateAction } from "react"
+import { useState, useEffect, type SetStateAction } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "../lib/utils"
@@ -18,33 +18,36 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../components/ui/popover"
-// 
-const frameworks = [
-  {
-    value: "Mumbai",
-    label: "Mumbai",
-  },
-  {
-    value: "Delhi",
-    label: "Delhi",
-  },
-  {
-    value: "Kolkata",
-    label: "Kolkata",
-  },
-  {
-    value: "Indore",
-    label: "Indore",
-  },
-  {
-    value: "Lucknow",
-    label: "Lucknow",
-  },
-]
+import { useDatabase } from "../hooks/useDatabase"
+
+interface City {
+  value: string;
+  label: string;
+}
 
 export default function CitySearch() {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
+  const [cities, setCities] = useState<City[]>([])
+  const { data: cinemas, loading, handleListCinemas } = useDatabase()
+
+  useEffect(() => {
+    // Load cinemas to get cities
+    handleListCinemas()
+  }, [])
+
+  useEffect(() => {
+    if (cinemas && Array.isArray(cinemas)) {
+      // Extract unique cities from cinemas
+      const uniqueCities = Array.from(
+        new Set(cinemas.map((cinema: any) => cinema.ciudad))
+      ).map(ciudad => ({
+        value: ciudad,
+        label: ciudad
+      }))
+      setCities(uniqueCities)
+    }
+  }, [cinemas])
 
   return (
     <div className="hidden lg:block">
@@ -57,7 +60,7 @@ export default function CitySearch() {
             className="w-[200px] justify-between"
           >
             {value
-              ? frameworks.find((framework) => framework.value === value)?.label
+              ? cities.find((city) => city.value === value)?.label
               : "Select City"}
             <ChevronsUpDown className="opacity-50" />
           </Button>
@@ -68,20 +71,20 @@ export default function CitySearch() {
             <CommandList>
               <CommandEmpty>No City found.</CommandEmpty>
               <CommandGroup>
-                {frameworks.map((framework) => (
+                {cities.map((city) => (
                   <CommandItem
-                    key={framework.value}
-                    value={framework.value}
+                    key={city.value}
+                    value={city.value}
                     onSelect={(currentValue: SetStateAction<string>) => {
                       setValue(currentValue === value ? "" : currentValue)
                       setOpen(false)
                     }}
                   >
-                    {framework.label}
+                    {city.label}
                     <Check
                       className={cn(
                         "ml-auto",
-                        value === framework.value ? "opacity-100" : "opacity-0"
+                        value === city.value ? "opacity-100" : "opacity-0"
                       )}
                     />
                   </CommandItem>

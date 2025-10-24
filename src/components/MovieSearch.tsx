@@ -1,6 +1,5 @@
-import { getMovies } from "../api/getMovies"
-import type { Movie } from "../types/index.d"
-import { useQuery } from "@tanstack/react-query"
+import { useMovies } from "../hooks/useMovies"
+import type { Movie } from "../services/moviesService"
 import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
@@ -13,18 +12,19 @@ export default function MovieSearch() {
   const containerRef = useRef<HTMLDivElement>(null)
   const resultRefs = useRef<(HTMLAnchorElement | null)[]>([])
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["nowPlayingMovies"],
-    queryFn: getMovies,
-    staleTime: 5 * 60 * 1000,
-  })
+  const { data, loading: isLoading, error, handleGetMovies } = useMovies()
+
+  // Load movies on component mount
+  useEffect(() => {
+    handleGetMovies()
+  }, [])
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchQuery && data?.results) {
+      if (searchQuery && data) {
         setFilteredMovies(
-          data.results.filter((m: Movie) =>
-            m.title.toLowerCase().includes(searchQuery.toLowerCase())
+          data.filter((m: Movie) =>
+            m.name.toLowerCase().includes(searchQuery.toLowerCase())
           )
         )
         setShowRecommendations(true)
@@ -38,7 +38,7 @@ export default function MovieSearch() {
     return () => {
       clearTimeout(timer)
     }
-  }, [searchQuery, data?.results])
+  }, [searchQuery, data])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -91,7 +91,7 @@ export default function MovieSearch() {
   const selectMovie = (movie: Movie) => {
     setShowRecommendations(false)
     setSearchQuery("")
-    navigate(`/${movie.id}`)
+    navigate(`/movie/${movie.id}`)
   }
 
   if (isLoading)
@@ -171,7 +171,7 @@ export default function MovieSearch() {
               aria-selected={focusedIndex === index}
               tabIndex={-1}
             >
-              {movie.title}
+              {movie.name}
             </Link>
           ))}
         </div>
