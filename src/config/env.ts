@@ -8,6 +8,7 @@ export const config = {
     bookingService: import.meta.env.VITE_BOOKING_SERVICE_URL || 'http://lb-cinema-1751800337.us-east-1.elb.amazonaws.com/booking',
     paymentService: import.meta.env.VITE_PAYMENT_SERVICE_URL || 'http://lb-cinema-1751800337.us-east-1.elb.amazonaws.com/booking/payments',
     notificationService: import.meta.env.VITE_NOTIFICATION_SERVICE_URL || 'http://lb-cinema-1751800337.us-east-1.elb.amazonaws.com/analytics/notifications',
+    databaseService: import.meta.env.VITE_DATABASE_SERVICE_URL || 'http://lb-cinema-1751800337.us-east-1.elb.amazonaws.com/analytics',
   },
   app: {
     nodeEnv: import.meta.env.VITE_NODE_ENV || 'development',
